@@ -1,0 +1,81 @@
+.header {
+    position: relative;
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        // top: 13px;
+        left: 2px;
+        top: calc(50% - 13.5px);
+        width: 65px;
+        height: 65px;
+        z-index: 1;
+        opacity: 1;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNiAxMmgxMHYxaC0xMHYtMXptNy44MTYtM2gtNy44MTZ2MWg5LjA0N2MtLjQ1LS4yODMtLjg2My0uNjE4LTEuMjMxLTF6bS03LjgxNi0yaDYuNWMtLjEzNC0uMzItLjIzNy0uNjU2LS4zMTktMWgtNi4xODF2MXptMTMgMy45NzV2Mi41NjhjMCA0LjEwNy02IDIuNDU3LTYgMi40NTdzMS41MTggNi0yLjYzOCA2aC03LjM2MnYtMjBoOS41Yy4zMTItLjc0OS43NjMtMS40MjQgMS4zMTYtMmgtMTIuODE2djI0aDEwLjE4OWMzLjE2MyAwIDkuODExLTcuMjIzIDkuODExLTkuNjE0di0zLjg4NmMtLjYyMy4yNi0xLjI5Ny40MjEtMiAuNDc1em00LTYuNDc1YzAgMi40ODUtMi4wMTUgNC41LTQuNSA0LjVzLTQuNS0yLjAxNS00LjUtNC41IDIuMDE1LTQuNSA0LjUtNC41IDQuNSAyLjAxNSA0LjUgNC41em0tMi4xNTYtLjg4MmwtLjY5Ni0uNjk2LTIuMTE2IDIuMTY5LS45OTItLjk0MS0uNjk2LjY5NyAxLjY4OCAxLjYzNyAyLjgxMi0yLjg2NnoiLz48L3N2Zz4=");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
+
+.todoapp {
+    background: #fff;
+    padding: 13px;
+    margin: 130px 0 40px 0;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 0 13px rgba(0, 0, 0, 0.2)
+}
+
+.todoapp input::-webkit-input-placeholder {
+    font-weight: 400;
+    color: #ddd;
+}
+
+.todoapp input::-moz-placeholder {
+    font-weight: 400;
+    color: #ddd;
+}
+
+.todoapp input::input-placeholder {
+    font-weight: 400;
+    color: #ddd;
+}
+
+.new-todo,
+.edit {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: 1.4em;
+    border: 0;
+    color: inherit;
+    box-sizing: border-box;
+}
+
+.new-todo {
+    padding: 16px 60px 16px 60px;
+    border-radius: 10px;
+    border: none;
+    background: #efefef;
+    transition: background .3s ease;
+    &:focus {
+        background: #ddd;
+    }
+}
+
+.new-todo-button {
+    position: absolute;
+    display: inline-block;
+    width: 65px;
+    height: 65px;
+    right: 13px;
+    top: calc(50% - 13.5px);
+    transition: opacity .3s ease;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMmM1LjUxNCAwIDEwIDQuNDg2IDEwIDEwcy00LjQ4NiAxMC0xMCAxMC0xMC00LjQ4Ni0xMC0xMCA0LjQ4Ni0xMCAxMC0xMHptMC0yYy02LjYyNyAwLTEyIDUuMzczLTEyIDEyczUuMzczIDEyIDEyIDEyIDEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyem02IDEzaC01djVoLTJ2LTVoLTV2LTJoNXYtNWgydjVoNXYyeiIvPjwvc3ZnPg==");
+    background-repeat: no-repeat;
+    background-position: center;
+}

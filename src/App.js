@@ -1,0 +1,85 @@
+import React from "react";
+
+import "./App.scss";
+import AppMain from "./components/addList/AppMain";
+import HeaderBlock from "./components/Headerblock/HeaderBlock.js";
+import AppFooter from "./components/footerBlock/AppFooter";
+import AppBall from "./components/LogoSvg/LogoSvg.js";
+import AppDate from "./components/AddDate/AppDate";
+
+class App extends React.Component {
+  constructor(props) {
+    super();
+    this.NewIndexId = 3;
+    this.state = {
+      tasks: [
+        {
+          id: 0,
+          title: "learn React",
+          isDone: false,
+          newTaskTitle: "",
+        },
+        {
+          id: 1,
+          title: "learn Redux",
+          isDone: false,
+          newTaskTitle: "",
+        },
+        {
+          id: 2,
+          title: "learn React Hoock",
+          isDone: false,
+          newTaskTitle: "",
+        },
+      ],
+    };
+  }
+
+  createNewTask(task) {
+    // //this.props.onSubmit(this.state.value);
+    this.setState({
+      tasks: [...this.state.tasks, task],
+    });
+  }
+
+  deleteTasks(tasksId) {
+    this.setState({
+      tasks: this.state.tasks.filter((T) => {
+        return T.id !== tasksId;
+      }),
+    });
+  }
+
+  render() {
+    return (
+      <div className="todoapp">
+        <AppDate />
+
+        <AppBall />
+        <HeaderBlock
+          createNewTask={this.createNewTask.bind(this)}
+          title={"New ToDo list"}
+        />
+
+        <div className="main">
+          <div className="completed-wrapper">
+            <label htmlFor="toggle-all"> Complete all tasks </label>
+            {this.state.tasks.map((tasks, index) => {
+              return (
+                <AppMain
+                  tasks={tasks}
+                  deleteCallback={this.deleteTasks.bind(this)}
+                  key={tasks.id}
+                />
+              );
+            })}{" "}
+          </div>{" "}
+        </div>
+
+        <AppFooter />
+      </div>
+    );
+  }
+}
+
+export default <App />;

@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a,
+button {
+    transition: color .3s ease;
+}
+
+input[type=checkbox],
+a,
+button {
+    cursor: pointer;
+}
+
+button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 100%;
+    vertical-align: baseline;
+    font-family: inherit;
+    font-weight: inherit;
+    color: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: 'Noto Sans HK', sans-serif;
+    font-size: 12px;
+    line-height: 1.4em;
+    background: #d5d7de;
+    color: #000;
+    min-width: 230px;
+    max-width: 550px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 300;
+}
+
+:focus {
+    outline: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.ball_wrap {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    // background: grey;
+    svg {
+        width: 100%;
+        height: 100%;
+        transform-origin: 50% 0%;
+        animation: rotate 2s infinite ease-in-out;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(-45deg);
+    }
+    50% {
+        -webkit-transform: rotate(45deg);
+    }
+    100% {
+        -webkit-transform: rotate(-45deg);
+    }
+}
+
+.delete {
+    position: absolute;
+    right: 2%;
+    cursor: pointer;
+    display: none;
+}
+
+.tasks {
+    width: 100%;
+    position: relative;
+}
+
+.tasks:hover .delete {
+    display: inline-block;
+}
+
+.delete::before {
+    content: "";
+    width: 16px;
+    height: 2px;
+    left: calc(50% - 8px);
+    top: calc(50% - 1px);
+    position: absolute;
+    background: red;
+    transform: rotate(-45deg);
+}
+
+.delete::after {
+    content: "";
+    width: 16px;
+    height: 2px;
+    left: calc(50% - 8px);
+    top: calc(50% - 1px);
+    position: absolute;
+    background: red;
+    transform: rotate(45deg);
+}
+
+.done {
+    text-decoration: line-through;
+    ;
+}
