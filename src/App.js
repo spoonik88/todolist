@@ -17,29 +17,37 @@ class App extends React.Component {
           id: 0,
           title: "learn React",
           isDone: false,
-          newTaskTitle: "",
+          value: "",
         },
         {
           id: 1,
           title: "learn Redux",
           isDone: false,
-          newTaskTitle: "",
+          value: "",
         },
         {
           id: 2,
           title: "learn React Hoock",
           isDone: false,
-          newTaskTitle: "",
+          value: "",
         },
       ],
     };
   }
 
   createNewTask(task) {
-    // //this.props.onSubmit(this.state.value);
+    const newTask = {
+      title: task,
+      isDone: false,
+      value: "",
+      id: this.NewIndexId,
+    };
+   
+    console.log(task)
     this.setState({
-      tasks: [...this.state.tasks, task],
+      tasks: [...this.state.tasks, newTask],
     });
+    this.NewIndexId++;
   }
 
   deleteTasks(tasksId) {
@@ -76,7 +84,7 @@ class App extends React.Component {
           </div>{" "}
         </div>
 
-        <AppFooter />
+        <AppFooter  tasks={this.state.tasks} />
       </div>
     );
   }

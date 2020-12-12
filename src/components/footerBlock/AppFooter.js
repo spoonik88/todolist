@@ -7,31 +7,41 @@ class   AppFooter extends React.Component{
 
   constructor(props){
     super(props);
-    this.state = {
-      task: props.tasks
-    }
+    // this.state = {
+    //   task: props.tasks
+    // }
+    // console.log(this.props.tasks.length)
+    
   }
+  filterChanged(e){
+
+  }
+
+
   render(){
     return(
       <footer className="footer">
       <span className="todo-count">
-        <strong>1</strong> task left
+        <strong>{this.props.tasks.length}</strong> All task
       </span>{" "}
+      {/* <span className="todo-count">
+        <strong>{this.props.tasks.filter((t) =>!t.isDone).length }</strong> task left
+      </span>{" "} */}
       <ul className="filters">
         <li>
-          <a href="#/all" className="selected">
+          <button className="selected" onClick={this.filterChanged.bind(this)}>
             All
-          </a>
+          </button>
         </li>{" "}
         <li>
-          <a href="#/active" className="">
+          <button  className="">
             Uncomplete
-          </a>
+          </button>
         </li>{" "}
         <li>
-          <a href="#/completed" className="">
+          <button  className="">
             Completed
-          </a>
+          </button>
         </li>
       </ul>
     </footer>
