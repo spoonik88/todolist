@@ -10,6 +10,9 @@ import AppDate from "./components/AddDate/AppDate";
 class App extends React.Component {
   constructor(props) {
     super();
+    ////TODO почему не хранишь индекс в стэйте?
+   ////TODO и фильтры лучше тоже массивом в стэйте хранить, в футер передаёшь этот массив с флагом выбранный, сдесь же и фильтруешь передовая в Мэйн
+    ////TODO и переменная с маленькой буквы должна быть
     this.NewIndexId = 3;
     this.state = {
       tasks: [
@@ -34,7 +37,7 @@ class App extends React.Component {
       ],
     };
   }
-
+////TODO и создаёшь метод для выбора фильтра
   createNewTask(task) {
     const newTask = {
       title: task,
@@ -72,6 +75,7 @@ class App extends React.Component {
         <div className="main">
           <div className="completed-wrapper">
             <label htmlFor="toggle-all"> Complete all tasks </label>
+            {/* ////TODO тоесть вот сдесь фильтруешь! */}
             {this.state.tasks.map((tasks, index) => {
               return (
                 <AppMain
@@ -83,7 +87,7 @@ class App extends React.Component {
             })}{" "}
           </div>{" "}
         </div>
-
+{/* ////TODO тут тебе нужно передавать только длинну тасок и фильтра. */}
         <AppFooter  tasks={this.state.tasks} />
       </div>
     );
