@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./App.scss";
-import AppMain from "./components/addList/AppMain";
+import Task from "./components/addList/AppMain";
 import HeaderBlock from "./components/Headerblock/HeaderBlock.js";
 import AppFooter from "./components/footerBlock/AppFooter";
 import AppBall from "./components/LogoSvg/LogoSvg.js";
@@ -13,7 +13,7 @@ class App extends React.Component {
     ////TODO почему не хранишь индекс в стэйте?
    ////TODO и фильтры лучше тоже массивом в стэйте хранить, в футер передаёшь этот массив с флагом выбранный, сдесь же и фильтруешь передовая в Мэйн
     ////TODO и переменная с маленькой буквы должна быть
-    this.NewIndexId = 3;
+    this.newIndexId = 3;
     this.state = {
       tasks: [
         {
@@ -35,24 +35,42 @@ class App extends React.Component {
           value: "",
         },
       ],
+      filters: [{value: 'all', title: 'All'}, {value: 'done', title: 'Completed'}],
+      selectedFilter: 'all'
     };
   }
 ////TODO и создаёшь метод для выбора фильтра
+changeFilter = (value) => {
+  console.log(value)
+  if (value && this.state.filters.map(f => f.value).includes(value)) {
+    if (value !== this.state.selectedFilter) {
+      this.setState({selectedFilter: value})
+    } else {
+      this.setState({selectedFilter: 'all'})
+    }
+  }
+}
+updateTask = (newTask) => {
+ 
+  this.setState({
+    tasks: this.state.tasks.map(t => t.id === newTask.id ? newTask : t),
+  });
+}
   createNewTask(task) {
     const newTask = {
       title: task,
       isDone: false,
       value: "",
-      id: this.NewIndexId,
+      id: this.newIndexId,
     };
    
-    console.log(task)
+    
     this.setState({
       tasks: [...this.state.tasks, newTask],
     });
-    this.NewIndexId++;
+    this.newIndexId++;
   }
-
+  
   deleteTasks(tasksId) {
     this.setState({
       tasks: this.state.tasks.filter((T) => {
@@ -62,6 +80,7 @@ class App extends React.Component {
   }
 
   render() {
+    const {selectedFilter, tasks, filters} = this.state;
     return (
       <div className="todoapp">
         <AppDate />
@@ -76,19 +95,26 @@ class App extends React.Component {
           <div className="completed-wrapper">
             <label htmlFor="toggle-all"> Complete all tasks </label>
             {/* ////TODO тоесть вот сдесь фильтруешь! */}
-            {this.state.tasks.map((tasks, index) => {
+            {this.state.tasks.filter(t => selectedFilter === 'all' || t.isDone).map((task, index) => {
               return (
-                <AppMain
-                  tasks={tasks}
+                <Task
+                  task={task}
                   deleteCallback={this.deleteTasks.bind(this)}
-                  key={tasks.id}
+                  key={task.id}
+                  updateTask={this.updateTask}
                 />
               );
-            })}{" "}
-          </div>{" "}
+            })}
+          </div>
         </div>
 {/* ////TODO тут тебе нужно передавать только длинну тасок и фильтра. */}
-        <AppFooter  tasks={this.state.tasks} />
+        <AppFooter  
+          tasksCount={tasks.length}
+          comletedCount={tasks.filter(t => t.isDone).length}
+          filters={filters}
+          changeFilter={this.changeFilter}
+          selectedFilter={selectedFilter}
+        />
       </div>
     );
   }
