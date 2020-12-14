@@ -21,31 +21,38 @@ class App extends React.Component {
           title: "learn React",
           isDone: false,
           value: "",
+          priority:"low"
         },
         {
           id: 1,
           title: "learn Redux",
           isDone: false,
           value: "",
+          priority:"high"
         },
         {
           id: 2,
           title: "learn React Hoock",
           isDone: false,
           value: "",
+          priority:"medium"
         },
       ],
-      filters: [{value: 'all', title: 'All'}, {value: 'done', title: 'Completed'}],
+      filters: [{value: 'all', title: 'All'}, {value: 'not_done', title: 'Completed'}, {value: 'done', title: 'Uncompleted'}],
       selectedFilter: 'all'
     };
   }
 ////TODO и создаёшь метод для выбора фильтра
 changeFilter = (value) => {
-  console.log(value)
+  console.log(this.state.selectedFilter)
   if (value && this.state.filters.map(f => f.value).includes(value)) {
     if (value !== this.state.selectedFilter) {
       this.setState({selectedFilter: value})
-    } else {
+    } else if( value =="not_done"){
+      this.setState({selectedFilter: value})
+      console.log(this.state.selectedFilter)
+    }
+     else {
       this.setState({selectedFilter: 'all'})
     }
   }
@@ -56,11 +63,13 @@ updateTask = (newTask) => {
     tasks: this.state.tasks.map(t => t.id === newTask.id ? newTask : t),
   });
 }
-  createNewTask(task) {
+  createNewTask(task,priority) {
+    console.log(priority)
     const newTask = {
       title: task,
       isDone: false,
       value: "",
+      priority:priority,
       id: this.newIndexId,
     };
    
@@ -80,6 +89,7 @@ updateTask = (newTask) => {
   }
 
   render() {
+   
     const {selectedFilter, tasks, filters} = this.state;
     return (
       <div className="todoapp">

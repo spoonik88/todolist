@@ -4,22 +4,26 @@ import "./Headerblock.scss";
 class Headerblock extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
+    
   
     this.state = {
       task: props.tasks,
-      value: ''
+      value: '',
+      priority:'no priority selected'
     };
   }
 
   handleChange(e) {
     this.setState({ value: e.target.value });
   }
+  handleChangePriority(e) {
+    this.setState({ priority: e.target.value });
+   
+  }
 
-  addNewTask(value) {
-    // console.log(this.state.value);
-    
-    this.props.createNewTask(this.state.value);
+  addNewTask(value,priority) {
+      
+    this.props.createNewTask(this.state.value,this.state.priority);
     
     this.setState({value: ''})
     
@@ -35,6 +39,16 @@ class Headerblock extends React.Component {
           placeholder="Type your todo list"
           value={this.state.value}
         />
+        <div className = "wrap_input-priority">
+          <select name="" id="" priority={this.state.priority} onChange={this.handleChangePriority.bind(this)}>
+            
+            <option value="Low" >Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+       
+        </div>
+        
         <button
           onClick={this.addNewTask.bind(this)}
           className="new-todo-button"

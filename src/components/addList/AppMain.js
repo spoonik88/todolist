@@ -4,8 +4,8 @@ import "./AppMain.scss";
 class Task extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props)
-    console.log(this.props)
+    // console.log(props)
+    // console.log(this.props)
     this.state = {
       task: props.task,
     };
@@ -40,7 +40,9 @@ class Task extends React.Component {
           onChange={this.toggleTaskStatus.bind(this)}
           checked={this.state.task.isDone}
         />{" "}
-        {this.state.task.title}{" "}
+        {this.state.task.title} {" - "}
+        {this.state.task.priority}
+
         <button className="delete" onClick={this.deleteTasks.bind(this)}>
           x{" "}
         </button>{" "}

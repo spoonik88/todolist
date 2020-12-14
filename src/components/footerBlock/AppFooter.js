@@ -10,7 +10,7 @@ class   AppFooter extends React.Component{
   }
 
   render(){
-    console.log(this.props)
+    // console.log(this.props)
     return(
       <footer className="footer">
       <span className="todo-count">
