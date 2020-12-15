@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor(props) {
     super();
     ////TODO почему не хранишь индекс в стэйте?
-   ////TODO и фильтры лучше тоже массивом в стэйте хранить, в футер передаёшь этот массив с флагом выбранный, сдесь же и фильтруешь передовая в Мэйн
+    ////TODO и фильтры лучше тоже массивом в стэйте хранить, в футер передаёшь этот массив с флагом выбранный, сдесь же и фильтруешь передовая в Мэйн
     ////TODO и переменная с маленькой буквы должна быть
     this.newIndexId = 3;
     this.state = {
@@ -21,65 +21,88 @@ class App extends React.Component {
           title: "learn React",
           isDone: false,
           value: "",
-          priority:"low"
+          priority: "low",
         },
         {
           id: 1,
           title: "learn Redux",
           isDone: false,
           value: "",
-          priority:"high"
+          priority: "high",
         },
         {
           id: 2,
           title: "learn React Hoock",
           isDone: false,
           value: "",
-          priority:"medium"
+          priority: "medium",
         },
       ],
-      filters: [{value: 'all', title: 'All'}, {value: 'not_done', title: 'Completed'}, {value: 'done', title: 'Uncompleted'}],
-      selectedFilter: 'all'
+      filters: [
+        { value: "all", title: "All" },
+        { value: "not_done", title: "Completed" },
+        { value: "done", title: "Uncompleted" },
+      ],
+      selectedFilter: "all",
     };
   }
-////TODO и создаёшь метод для выбора фильтра
-changeFilter = (value) => {
-  console.log(this.state.selectedFilter)
-  if (value && this.state.filters.map(f => f.value).includes(value)) {
-    if (value !== this.state.selectedFilter) {
-      this.setState({selectedFilter: value})
-    } else if( value =="not_done"){
-      this.setState({selectedFilter: value})
-      console.log(this.state.selectedFilter)
+  ////TODO и создаёшь метод для выбора фильтра
+  changeFilter = (value, tasks) => {
+    // console.log(value && this.state.filters.map(f => f.value).includes(value))
+    // if (value && this.state.filters.map(f => f.value).includes(value)) {
+    //   if (value !== this.state.selectedFilter) {
+    //     this.setState({selectedFilter: value})
+    //   } else if( value =="not_done"){
+    //     this.setState({selectedFilter: value})
+    //     console.log(this.state.selectedFilter)
+    //   }
+    //    else {
+    //     this.setState({selectedFilter: 'all'})
+    //   }
+    // }
+    const newTaskFilter = {
+
+      tasks: [...this.state.tasks]
+    };
+
+    if (value === "all") {
+      console.log(newTaskFilter)
+      this.setState({
+        newTaskFilter
+      });
+    } else if (value === "not_done") {
+      this.setState({
+        tasks: [...this.state.tasks.filter((t) => !t.isDone === true)],
+      });
+    } else if (value === "done") {
+      this.setState({
+        tasks: [...this.state.tasks.filter((t) => t.isDone === true)],
+      });
+    } else {
+      this.setState({ selectedFilter: "all" });
     }
-     else {
-      this.setState({selectedFilter: 'all'})
-    }
-  }
-}
-updateTask = (newTask) => {
- 
-  this.setState({
-    tasks: this.state.tasks.map(t => t.id === newTask.id ? newTask : t),
-  });
-}
-  createNewTask(task,priority) {
-    console.log(priority)
+  };
+  updateTask = (newTask) => {
+    this.setState({
+      tasks: this.state.tasks.map((t) => (t.id === newTask.id ? newTask : t)),
+    });
+  };
+  createNewTask(task, priority) {
+    console.log(priority);
     const newTask = {
       title: task,
       isDone: false,
       value: "",
-      priority:priority,
+      priority: priority,
       id: this.newIndexId,
     };
-   
-    
+
     this.setState({
       tasks: [...this.state.tasks, newTask],
     });
     this.newIndexId++;
   }
-  
+
   deleteTasks(tasksId) {
     this.setState({
       tasks: this.state.tasks.filter((T) => {
@@ -89,8 +112,7 @@ updateTask = (newTask) => {
   }
 
   render() {
-   
-    const {selectedFilter, tasks, filters} = this.state;
+    const { selectedFilter, tasks, filters } = this.state;
     return (
       <div className="todoapp">
         <AppDate />
@@ -105,22 +127,24 @@ updateTask = (newTask) => {
           <div className="completed-wrapper">
             <label htmlFor="toggle-all"> Complete all tasks </label>
             {/* ////TODO тоесть вот сдесь фильтруешь! */}
-            {this.state.tasks.filter(t => selectedFilter === 'all' || t.isDone).map((task, index) => {
-              return (
-                <Task
-                  task={task}
-                  deleteCallback={this.deleteTasks.bind(this)}
-                  key={task.id}
-                  updateTask={this.updateTask}
-                />
-              );
-            })}
+            {this.state.tasks
+              .filter((t) => selectedFilter === "all" || t.isDone)
+              .map((task, index) => {
+                return (
+                  <Task
+                    task={task}
+                    deleteCallback={this.deleteTasks.bind(this)}
+                    key={task.id}
+                    updateTask={this.updateTask}
+                  />
+                );
+              })}
           </div>
         </div>
-{/* ////TODO тут тебе нужно передавать только длинну тасок и фильтра. */}
-        <AppFooter  
+        {/* ////TODO тут тебе нужно передавать только длинну тасок и фильтра. */}
+        <AppFooter
           tasksCount={tasks.length}
-          comletedCount={tasks.filter(t => t.isDone).length}
+          comletedCount={tasks.filter((t) => t.isDone).length}
           filters={filters}
           changeFilter={this.changeFilter}
           selectedFilter={selectedFilter}
