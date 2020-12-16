@@ -40,48 +40,21 @@ class App extends React.Component {
       ],
       filters: [
         { value: "all", title: "All" },
-        { value: "not_done", title: "Completed" },
-        { value: "done", title: "Uncompleted" },
+        { value: "completed", title: "Completed" },
+        { value: "uncompleted", title: "Uncompleted" },
       ],
       selectedFilter: "all",
     };
   }
   ////TODO и создаёшь метод для выбора фильтра
-  changeFilter = (value, tasks) => {
-    // console.log(value && this.state.filters.map(f => f.value).includes(value))
-    // if (value && this.state.filters.map(f => f.value).includes(value)) {
-    //   if (value !== this.state.selectedFilter) {
-    //     this.setState({selectedFilter: value})
-    //   } else if( value =="not_done"){
-    //     this.setState({selectedFilter: value})
-    //     console.log(this.state.selectedFilter)
-    //   }
-    //    else {
-    //     this.setState({selectedFilter: 'all'})
-    //   }
-    // }
-    const newTaskFilter = {
+  changeFilter = (selectedFilter) => {
+    const selectedFilterTask = selectedFilter;
 
-      tasks: [...this.state.tasks]
-    };
-
-    if (value === "all") {
-      console.log(newTaskFilter)
-      this.setState({
-        newTaskFilter
-      });
-    } else if (value === "not_done") {
-      this.setState({
-        tasks: [...this.state.tasks.filter((t) => !t.isDone === true)],
-      });
-    } else if (value === "done") {
-      this.setState({
-        tasks: [...this.state.tasks.filter((t) => t.isDone === true)],
-      });
-    } else {
-      this.setState({ selectedFilter: "all" });
-    }
+    this.setState({
+      selectedFilter: selectedFilterTask,
+    });
   };
+
   updateTask = (newTask) => {
     this.setState({
       tasks: this.state.tasks.map((t) => (t.id === newTask.id ? newTask : t)),
@@ -113,6 +86,7 @@ class App extends React.Component {
 
   render() {
     const { selectedFilter, tasks, filters } = this.state;
+
     return (
       <div className="todoapp">
         <AppDate />
@@ -127,8 +101,15 @@ class App extends React.Component {
           <div className="completed-wrapper">
             <label htmlFor="toggle-all"> Complete all tasks </label>
             {/* ////TODO тоесть вот сдесь фильтруешь! */}
-            {this.state.tasks
-              .filter((t) => selectedFilter === "all" || t.isDone)
+            {tasks
+              .filter((t) =>
+                selectedFilter !== "completed" &&
+                selectedFilter !== "uncompleted"
+                  ? t
+                  : selectedFilter === "uncompleted"
+                  ? t.isDone
+                  : !t.isDone
+              )
               .map((task, index) => {
                 return (
                   <Task
@@ -146,7 +127,7 @@ class App extends React.Component {
           tasksCount={tasks.length}
           comletedCount={tasks.filter((t) => t.isDone).length}
           filters={filters}
-          changeFilter={this.changeFilter}
+          changeFilter={this.changeFilter.bind(this)}
           selectedFilter={selectedFilter}
         />
       </div>

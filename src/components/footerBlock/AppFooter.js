@@ -6,11 +6,21 @@ import "./AppFooter.scss";
 class   AppFooter extends React.Component{
   constructor(props){
     super(props);
-    
+    this.state = {
+      selectedFilter:this.props.selectedFilter
+    };
   }
-
+  handlerFilterChaged(e){
+    this.props.changeFilter(e.currentTarget.dataset.value);
+    
+    this.setState({
+      selectedFilter:e.currentTarget.dataset.value
+    })
+   
+  }
+ 
   render(){
-    // console.log(this.props)
+    
     return(
       <footer className="footer">
       <span className="todo-count">
@@ -22,7 +32,10 @@ class   AppFooter extends React.Component{
       </span>
       <ul className="filters">
         {this.props.filters.map(f => (<li>
-          <button className={this.props.selectedFilter === f.value ? "selected" : ""} onClick={() => this.props.changeFilter(f.value)}>
+          {/* <button data-value={f.value} className={this.props.selectedFilter === f.value ? "selected" : ""} onClick={() => this.props.changeFilter(f.value)}>
+            {f.title}
+          </button> */}
+          <button data-value={f.value} className={ f.value === this.state.selectedFilter ? "selected" : "" } onClick={ this.handlerFilterChaged.bind(this)}>
             {f.title}
           </button>
         </li>))}
