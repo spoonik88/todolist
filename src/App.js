@@ -54,14 +54,19 @@ class App extends React.Component {
       selectedFilter: selectedFilterTask,
     });
   };
-
+  onHideFiltersClick =(filters)=>{
+    console.log(filters);
+    this.setState({
+      filters: [],
+    });
+  }
   updateTask = (newTask) => {
     this.setState({
       tasks: this.state.tasks.map((t) => (t.id === newTask.id ? newTask : t)),
     });
   };
   createNewTask(task, priority) {
-    console.log(priority);
+    
     const newTask = {
       title: task,
       isDone: false,
@@ -128,6 +133,7 @@ class App extends React.Component {
           comletedCount={tasks.filter((t) => t.isDone).length}
           filters={filters}
           changeFilter={this.changeFilter.bind(this)}
+          onHideFiltersClick = {this.onHideFiltersClick.bind(this)}
           selectedFilter={selectedFilter}
         />
       </div>

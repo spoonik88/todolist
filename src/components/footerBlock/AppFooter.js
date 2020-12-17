@@ -7,7 +7,12 @@ class   AppFooter extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      selectedFilter:this.props.selectedFilter
+      selectedFilter:this.props.selectedFilter,
+      buttonHidden:[        
+          { value: "hide", title: "Hide" },
+        { value: "show", title: "Show" }        
+      ],
+      isHidden: true
     };
   }
   handlerFilterChaged(e){
@@ -18,9 +23,15 @@ class   AppFooter extends React.Component{
     })
    
   }
+  onHideFiltersClick(e){
+    console.log(this.props.filters)
+    this.setState({
+     isHidden: this.state.isHidden === false,
+       })
+  }
  
   render(){
-    
+   
     return(
       <footer className="footer">
       <span className="todo-count">
@@ -32,13 +43,16 @@ class   AppFooter extends React.Component{
       </span>
       <ul className="filters">
         {this.props.filters.map(f => (<li>
-          {/* <button data-value={f.value} className={this.props.selectedFilter === f.value ? "selected" : ""} onClick={() => this.props.changeFilter(f.value)}>
-            {f.title}
-          </button> */}
+          
           <button data-value={f.value} className={ f.value === this.state.selectedFilter ? "selected" : "" } onClick={ this.handlerFilterChaged.bind(this)}>
             {f.title}
           </button>
         </li>))}
+       <li>       
+        {this.state.buttonHidden.filter((b) =>  b.value === "hide" ? this.state.isHidden === true  : !this.state.isHidden   ).map( b=>( <button onClick={ this.onHideFiltersClick.bind(this)}> {b.title}</button>)
+        
+        )}
+       </li>
       </ul>
     </footer>
   )
