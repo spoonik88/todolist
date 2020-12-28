@@ -4,8 +4,7 @@ import "./AppMain.scss";
 class Task extends React.Component {
   constructor(props) {
     super(props);
-    // console.log(props)
-    // console.log(this.props)
+  
     this.state = {
       task: props.task,
     };
