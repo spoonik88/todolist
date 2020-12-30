@@ -1,62 +1,26 @@
 import React from "react";
-
+// import ReactDOM from "react-dom";
 import "./App.scss";
 import Task from "./components/addList/AppMain";
 import HeaderBlock from "./components/Headerblock/HeaderBlock.js";
 import AppFooter from "./components/footerBlock/AppFooter";
 import AppBall from "./components/LogoSvg/LogoSvg.js";
 import AppDate from "./components/AddDate/AppDate";
-import store from "./components/Store/Store";
-import todoListReducers from "./components/Reducers/Reducers";
-import { createStore } from "redux";
+import {defaultTodosState} from "./components/Reducers/Reducers";
+import { connect } from "react-redux";
+import { creatTaskActionCreater, deleteTask,clearTask,updateTask } from "./components/Action/Action";
 
 // console.log(store);
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    ////TODO почему не хранишь индекс в стэйте?
-    ////TODO и фильтры лучше тоже массивом в стэйте хранить, в футер передаёшь этот массив с флагом выбранный, сдесь же и фильтруешь передовая в Мэйн
-    ////TODO и переменная с маленькой буквы должна быть
-//  store.dispatch(changeFilter);
-//  store.dispatch(creatTask);
+  constructor() {
+    super();
+    this.state = defaultTodosState;
+  }
 
-    this.newIndexId = 3;
-//     this.state = {
-//       tasks: [{
-//         id: 0,
-//         title: "learn React",
-//         isDone: false,
-//         value: "",
-//         priority: "low",
-//     },
-//     {
-//         id: 1,
-//         title: "learn Redux",
-//         isDone: false,
-//         value: "",
-//         priority: "high",
-//     },
-//     {
-//         id: 2,
-//         title: "learn React Hoock",
-//         isDone: false,
-//         value: "",
-//         priority: "medium",
-//     },
-// ],
-// filters: [
-//     { value: "all", title: "All" },
-//     { value: "completed", title: "Completed" },
-//     { value: "uncompleted", title: "Uncompleted" },
-// ],
-// selectedFilter: "all",
-
-//     }
-const store = createStore(todoListReducers)
-// const state =store.getState();
- 
-     
+  componentDidMount() {
+    console.log(this.props);
+    // console.log(this.props.tasks.map(t=>t.title));
   }
   ////TODO и создаёшь метод для выбора фильтра
   changeFilter = (selectedFilter) => {
@@ -66,49 +30,46 @@ const store = createStore(todoListReducers)
       selectedFilter: selectedFilterTask,
     });
   };
-  onHideFiltersClick =(filters)=>{
-    console.log(filters);
+  onHideFiltersClick = (filters) => {
+  
     this.setState({
       filters: [],
     });
-  }
-  updateTask = (newTask) => {
-    this.setState({
-      tasks: this.state.tasks.map((t) => (t.id === newTask.id ? newTask : t)),
-    });
   };
-  createNewTask(task, priority) {
-   
-    const newTask = {
-      title: task,
-      isDone: false,
-      value: "",
-      priority: priority,
-      id: this.newIndexId,
-    };
-
-    this.setState({
-      tasks: [...this.state.tasks, newTask],
-    });
-    this.newIndexId++;
-  }
-
-  deleteTasks(tasksId) {
-    this.setState({
-      tasks: this.state.tasks.filter((T) => {
-        return T.id !== tasksId;
-      }),
-    });
-  }
-  clearTaskComplited(e){
-   
-    this.setState({
-      tasks:this.state.tasks.filter(t => !t.isDone)
+  updateTask = (task) => {
+    console.log(task.id)
+    this.props.updateTask({
+      isDone: task.isDone,
+      taskID:task.id
     })
+    
+  };
+
+  createNewTask(title, priority,value) {
+    this.props.addNewTask({
+      title: title,
+      priority: priority,
+      isDone:false,
+      value:value    
+    })
+  }
+  
+  deleteTask(taskId) {
+    console.log(taskId)
+    this.props.deleteTask({
+      taskId:taskId
+    })
+  }
+  clearTaskComplited(e,isDone) {
+    
+    this.props.clearTask({
+      isDone:isDone
+    })
+   
   }
 
   render() {
-    const { selectedFilter, tasks, filters } = this.state;
+    const { selectedFilter, tasks, filters } = this.props;
 
     return (
       <div className="todoapp">
@@ -123,7 +84,7 @@ const store = createStore(todoListReducers)
         <div className="main">
           <div className="completed-wrapper">
             <label htmlFor="toggle-all"> Complete all tasks </label>
-            {/* ////TODO тоесть вот сдесь фильтруешь! */}
+
             {tasks
               .filter((t) =>
                 selectedFilter !== "completed" &&
@@ -137,7 +98,7 @@ const store = createStore(todoListReducers)
                 return (
                   <Task
                     task={task}
-                    deleteCallback={this.deleteTasks.bind(this)}
+                    deleteCallback={this.deleteTask.bind(this)}
                     key={task.id}
                     updateTask={this.updateTask}
                   />
@@ -152,8 +113,8 @@ const store = createStore(todoListReducers)
           comletedCount={tasks.filter((t) => t.isDone).length}
           filters={filters}
           changeFilter={this.changeFilter.bind(this)}
-          onHideFiltersClick = {this.onHideFiltersClick.bind(this)}
-          onClearTaskComplited ={this.clearTaskComplited.bind(this)}
+          onHideFiltersClick={this.onHideFiltersClick.bind(this)}
+          onClearTaskComplited={this.clearTaskComplited.bind(this)}
           selectedFilter={selectedFilter}
         />
       </div>
@@ -161,4 +122,19 @@ const store = createStore(todoListReducers)
   }
 }
 
-export default <App />;
+const mapStateToProps = (state) => ({
+  ...state
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      addNewTask: (newTask) => dispatch(creatTaskActionCreater(newTask)),
+      deleteTask: (taskId) => dispatch(deleteTask(taskId)),
+      updateTask:(isDoneUpdate) => dispatch(updateTask(isDoneUpdate)),
+      clearTask:(isDone) => dispatch(clearTask(isDone)),
+      addA: () => dispatch({})
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

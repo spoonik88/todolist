@@ -1,62 +1,78 @@
-// const initialState = {
-//     todolists: []
-// }
-// const reducer = (state = initialState, action) => {
-//     switch (action.type) {
-//         case "CREATE_NEW_TASK":
-//             return {...state,
-//                 state: [...state.state, {
-//                     id: action.id,
-//                     title: action.title,
-//                     isDone: action.isDone,
-//                     value: action.value,
-//                     priority: action.priority,
-//                 }]
-//             }
-//     }
-// }
+import { nameAction } from "../Action/Action";
 
-// // const store = createStore(reducer);
-
-// export default reducer;
-export default function todoListReducers(oldState = {
+export const defaultTodosState = {
     tasks: [{
         id: 0,
         title: "learn React",
         isDone: false,
         value: "",
         priority: "low",
-    }],
+    }, ],
     filters: [
         { value: "all", title: "All" },
         { value: "completed", title: "Completed" },
         { value: "uncompleted", title: "Uncompleted" },
     ],
     selectedFilter: "all",
-
-}, action) {
+};
+let idCounter = 1;
+export default function todoListReducers(oldState = defaultTodosState, action) {
     switch (action.type) {
-        case "CREATE_NEW_TASK":
-            return {...oldState,
-                oldState: [...oldState.oldState, {
-                    id: action.id,
-                    title: action.title,
-                    isDone: action.isDone,
-                    value: action.value,
-                    priority: action.priority,
-                }]
+        case nameAction.CREATE_NEW_TASK:
+            {
+                const newTask = {
+                    id: idCounter,
+                    title: action.newTask.title,
+                    isDone: action.newTask.isDone,
+                    value: action.newTask.value,
+                    priority: action.newTask.priority,
+                };
+                idCounter++;
+                let newTasks = [...oldState.tasks];
+                newTasks.push(newTask);
+                return {
+                    ...oldState,
+                    tasks: newTasks,
+                };
             }
-        case "CHENGE_FILTER":
-            return {...oldState,
-                filters: [
-                    { value: "all", title: "All" },
-                    { value: "completed", title: "Completed" },
-                    { value: "uncompleted", title: "Uncompleted" },
-                ],
-                selectedFilter: "completed",
-            }
-        default:
-            return oldState;
-    }
 
+            // case nameAction.CHENGE_FILTER:
+            //     return {
+            //         ...oldState,
+            //         filters: [
+            //             { value: "all", title: "All" },
+            //             { value: "completed", title: "Completed" },
+            //             { value: "uncompleted", title: "Uncompleted" },
+            //         ],
+            //         selectedFilter: "completed",
+            //     };
+        case nameAction.DELETE_TASK:
+            {
+                return {
+                    ...oldState,
+                    tasks: oldState.tasks.filter((t) => t.id !== action.taskId.taskId),
+                };
+            }
+        case nameAction.UPDATE_TASK:
+            {
+                return {
+                    ...oldState,
+                    task: oldState.tasks
+                        .filter((t) => t.id === action.isDone.taskID)
+                        .map((t) => (t.isDone = action.isDone.isDone)),
+                };
+            }
+        case nameAction.CLEAR_TASK:
+            {
+                return {
+                    ...oldState,
+                    tasks: oldState.tasks.filter((t) => t.isDone !== true),
+                };
+            }
+
+        default:
+            {
+                return oldState;
+            }
+    }
 }

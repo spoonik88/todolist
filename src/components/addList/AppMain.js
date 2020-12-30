@@ -4,7 +4,7 @@ import "./AppMain.scss";
 class Task extends React.Component {
   constructor(props) {
     super(props);
-  
+
     this.state = {
       task: props.task,
     };
@@ -14,7 +14,6 @@ class Task extends React.Component {
   }
 
   deleteTasks(e) {
-    console.log(this.NewParentTask);
     this.deleteParentCallbackTasks(this.state.task.id);
   }
 
@@ -23,7 +22,7 @@ class Task extends React.Component {
       ...this.state.task,
       isDone: !this.state.task.isDone,
     };
-    this.props.updateTask(newTask)
+    this.props.updateTask(newTask);
     this.setState({
       task: newTask,
     });
@@ -39,9 +38,7 @@ class Task extends React.Component {
           onChange={this.toggleTaskStatus.bind(this)}
           checked={this.state.task.isDone}
         />{" "}
-        {this.state.task.title} {" - "}
-        {this.state.task.priority}
-
+        {this.state.task.title} {" - "} {this.state.task.priority}
         <button className="delete" onClick={this.deleteTasks.bind(this)}>
           x{" "}
         </button>{" "}

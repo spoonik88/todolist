@@ -23,14 +23,14 @@ class AppFooter extends React.Component {
     });
   }
   onHideFiltersClick(e) {
-    console.log(this.props.filters);
+    // console.log(this.props.filters);
     this.setState({
       isHidden: this.state.isHidden === false,
     });
   }
 
   render() {
-    console.log(this.state.isHidden)
+    // console.log(this.state.isHidden)
     return (
       <footer className="footer">
         <span className="todo-count">
