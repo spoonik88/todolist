@@ -61,7 +61,7 @@
     border-radius: 10px;
     border: none;
     background: #efefef;
-    transition: background .3s ease;
+    transition: background 0.3s ease;
     &:focus {
         background: #ddd;
     }
@@ -78,4 +78,14 @@
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMmM1LjUxNCAwIDEwIDQuNDg2IDEwIDEwcy00LjQ4NiAxMC0xMCAxMC0xMC00LjQ4Ni0xMC0xMCA0LjQ4Ni0xMCAxMC0xMHptMC0yYy02LjYyNyAwLTEyIDUuMzczLTEyIDEyczUuMzczIDEyIDEyIDEyIDEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyem02IDEzaC01djVoLTJ2LTVoLTV2LTJoNXYtNWgydjVoNXYyeiIvPjwvc3ZnPg==");
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.wrap_input-priority {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0.5rem;
+}
+
+.error {
+    border: 1px solid red;
 }

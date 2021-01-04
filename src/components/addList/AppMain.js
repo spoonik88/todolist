@@ -1,11 +1,12 @@
 import React from "react";
 import "./AppMain.scss";
 
-class MainForm extends React.Component {
+class Task extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      task: props.tasks,
+      task: props.task,
     };
 
     this.deleteParentCallbackTasks = props.deleteCallback;
@@ -13,18 +14,17 @@ class MainForm extends React.Component {
   }
 
   deleteTasks(e) {
-    console.log(this.NewParentTask);
     this.deleteParentCallbackTasks(this.state.task.id);
   }
 
   toggleTaskStatus(e) {
-    const NewTask = {
+    const newTask = {
       ...this.state.task,
       isDone: !this.state.task.isDone,
     };
-
+    this.props.updateTask(newTask);
     this.setState({
-      task: NewTask,
+      task: newTask,
     });
   }
 
@@ -37,14 +37,14 @@ class MainForm extends React.Component {
           type="checkbox"
           onChange={this.toggleTaskStatus.bind(this)}
           checked={this.state.task.isDone}
-        />
-        {this.state.task.title}
+        />{" "}
+        {this.state.task.title} {" - "} {this.state.task.priority}
         <button className="delete" onClick={this.deleteTasks.bind(this)}>
-          x
-        </button>
+          x{" "}
+        </button>{" "}
       </div>
     );
   }
 }
 
-export default MainForm;
+export default Task;

@@ -1,67 +1,76 @@
 import React from "react";
-
+// import ReactDOM from "react-dom";
 import "./App.scss";
-import AppMain from "./components/addList/AppMain";
+import Task from "./components/addList/AppMain";
 import HeaderBlock from "./components/Headerblock/HeaderBlock.js";
 import AppFooter from "./components/footerBlock/AppFooter";
 import AppBall from "./components/LogoSvg/LogoSvg.js";
 import AppDate from "./components/AddDate/AppDate";
+import {defaultTodosState} from "./components/Reducers/Reducers";
+import { connect } from "react-redux";
+import { creatTaskActionCreater, deleteTask,clearTask,updateTask } from "./components/Action/Action";
+
+// console.log(store);
 
 class App extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
-    ////TODO почему не хранишь индекс в стэйте?
-   ////TODO и фильтры лучше тоже массивом в стэйте хранить, в футер передаёшь этот массив с флагом выбранный, сдесь же и фильтруешь передовая в Мэйн
-    ////TODO и переменная с маленькой буквы должна быть
-    this.NewIndexId = 3;
-    this.state = {
-      tasks: [
-        {
-          id: 0,
-          title: "learn React",
-          isDone: false,
-          value: "",
-        },
-        {
-          id: 1,
-          title: "learn Redux",
-          isDone: false,
-          value: "",
-        },
-        {
-          id: 2,
-          title: "learn React Hoock",
-          isDone: false,
-          value: "",
-        },
-      ],
-    };
-  }
-////TODO и создаёшь метод для выбора фильтра
-  createNewTask(task) {
-    const newTask = {
-      title: task,
-      isDone: false,
-      value: "",
-      id: this.NewIndexId,
-    };
-   
-    console.log(task)
-    this.setState({
-      tasks: [...this.state.tasks, newTask],
-    });
-    this.NewIndexId++;
+    this.state = defaultTodosState;
   }
 
-  deleteTasks(tasksId) {
+  componentDidMount() {
+    console.log(this.props);
+    // console.log(this.props.tasks.map(t=>t.title));
+  }
+  ////TODO и создаёшь метод для выбора фильтра
+  changeFilter = (selectedFilter) => {
+    const selectedFilterTask = selectedFilter;
+
     this.setState({
-      tasks: this.state.tasks.filter((T) => {
-        return T.id !== tasksId;
-      }),
+      selectedFilter: selectedFilterTask,
     });
+  };
+  onHideFiltersClick = (filters) => {
+  
+    this.setState({
+      filters: [],
+    });
+  };
+  updateTask = (task) => {
+    console.log(task.id)
+    this.props.updateTask({
+      isDone: task.isDone,
+      taskID:task.id
+    })
+    
+  };
+
+  createNewTask(title, priority,value) {
+    this.props.addNewTask({
+      title: title,
+      priority: priority,
+      isDone:false,
+      value:value    
+    })
+  }
+  
+  deleteTask(taskId) {
+    console.log(taskId)
+    this.props.deleteTask({
+      taskId:taskId
+    })
+  }
+  clearTaskComplited(e,isDone) {
+    
+    this.props.clearTask({
+      isDone:isDone
+    })
+   
   }
 
   render() {
+    const { selectedFilter, tasks, filters } = this.props;
+
     return (
       <div className="todoapp">
         <AppDate />
@@ -75,23 +84,57 @@ class App extends React.Component {
         <div className="main">
           <div className="completed-wrapper">
             <label htmlFor="toggle-all"> Complete all tasks </label>
-            {/* ////TODO тоесть вот сдесь фильтруешь! */}
-            {this.state.tasks.map((tasks, index) => {
-              return (
-                <AppMain
-                  tasks={tasks}
-                  deleteCallback={this.deleteTasks.bind(this)}
-                  key={tasks.id}
-                />
-              );
-            })}{" "}
-          </div>{" "}
+
+            {tasks
+              .filter((t) =>
+                selectedFilter !== "completed" &&
+                selectedFilter !== "uncompleted"
+                  ? t
+                  : selectedFilter === "completed"
+                  ? t.isDone
+                  : !t.isDone
+              )
+              .map((task, index) => {
+                return (
+                  <Task
+                    task={task}
+                    deleteCallback={this.deleteTask.bind(this)}
+                    key={task.id}
+                    updateTask={this.updateTask}
+                  />
+                );
+              })}
+          </div>
         </div>
-{/* ////TODO тут тебе нужно передавать только длинну тасок и фильтра. */}
-        <AppFooter  tasks={this.state.tasks} />
+        {/* ////TODO тут тебе нужно передавать только длинну тасок и фильтра. */}
+        <AppFooter
+          tasksCount={tasks.length}
+          key={tasks.id}
+          comletedCount={tasks.filter((t) => t.isDone).length}
+          filters={filters}
+          changeFilter={this.changeFilter.bind(this)}
+          onHideFiltersClick={this.onHideFiltersClick.bind(this)}
+          onClearTaskComplited={this.clearTaskComplited.bind(this)}
+          selectedFilter={selectedFilter}
+        />
       </div>
     );
   }
 }
 
-export default <App />;
+const mapStateToProps = (state) => ({
+  ...state
+})
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      addNewTask: (newTask) => dispatch(creatTaskActionCreater(newTask)),
+      deleteTask: (taskId) => dispatch(deleteTask(taskId)),
+      updateTask:(isDoneUpdate) => dispatch(updateTask(isDoneUpdate)),
+      clearTask:(isDone) => dispatch(clearTask(isDone)),
+      addA: () => dispatch({})
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
