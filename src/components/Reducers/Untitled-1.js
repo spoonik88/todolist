@@ -8,3 +8,10 @@ case nameAction.UPDATE_TASK:
         }
 
     }
+
+    filters: [
+            { value: "all", title: "All" },
+            { value: "completed", title: "Completed" },
+            { value: "uncompleted", title: "Uncompleted" },
+        ],
+        selectedFilter: "completed",
