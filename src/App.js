@@ -6,9 +6,9 @@ import HeaderBlock from "./components/Headerblock/HeaderBlock.js";
 import AppFooter from "./components/footerBlock/AppFooter";
 import AppBall from "./components/LogoSvg/LogoSvg.js";
 import AppDate from "./components/AddDate/AppDate";
-import {defaultTodosState} from "./components/Reducers/Reducers";
+import {defaultTodosState,getTasks} from "./components/Reducers/Reducers";
 import { connect } from "react-redux";
-import { creatTaskActionCreater, deleteTask,clearTask,updateTask } from "./components/Action/Action";
+import { creatTaskActionCreater, deleteTask,clearTask,updateTask,changeFilterTask} from "./components/Action/Action";
 
 // console.log(store);
 
@@ -19,16 +19,20 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
-    // console.log(this.props.tasks.map(t=>t.title));
-  }
+    console.log( this.props.getTasks())
+   
+    // this.props.getTasks();
+}
   ////TODO и создаёшь метод для выбора фильтра
   changeFilter = (selectedFilter) => {
-    const selectedFilterTask = selectedFilter;
-
-    this.setState({
-      selectedFilter: selectedFilterTask,
-    });
+    // const selectedFilterTask = selectedFilter;
+//  console.log(selectedFilter);
+ this.props.changeFilterTask({
+  selectedFilter:selectedFilter
+ })
+    // this.setState({
+    //   selectedFilter: selectedFilterTask,
+    // });
   };
   onHideFiltersClick = (filters) => {
   
@@ -69,8 +73,9 @@ class App extends React.Component {
   }
 
   render() {
+    
     const { selectedFilter, tasks, filters } = this.props;
-
+    console.log(selectedFilter)
     return (
       <div className="todoapp">
         <AppDate />
@@ -131,7 +136,9 @@ const mapDispatchToProps = (dispatch) => {
       addNewTask: (newTask) => dispatch(creatTaskActionCreater(newTask)),
       deleteTask: (taskId) => dispatch(deleteTask(taskId)),
       updateTask:(isDoneUpdate) => dispatch(updateTask(isDoneUpdate)),
+      changeFilterTask:(selectedFilter) => dispatch(changeFilterTask(selectedFilter)),
       clearTask:(isDone) => dispatch(clearTask(isDone)),
+      getTasks:(data) => dispatch(getTasks(data)),
       addA: () => dispatch({})
   }
 }

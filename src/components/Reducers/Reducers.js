@@ -1,4 +1,5 @@
 import { nameAction } from "../Action/Action";
+import { todoListsAPI } from "../API/api";
 
 export const defaultTodosState = {
     tasks: [{
@@ -16,6 +17,22 @@ export const defaultTodosState = {
     selectedFilter: "all",
 };
 let idCounter = 1;
+
+// let thunk = (dispatch, getState) => {
+//     let fullStateOfApp = getState(); // взять стейт, чтобы на основе его данных что-то проверить и если что, например, задиспатчить
+//     if (fullStateOfApp.users.length === 0) {
+//         dispatch({ type: "SOME-ACTION" });
+//     }
+// }
+
+export const getTasks = (data) => {
+    console.log(data)
+        // todoListsAPI.getTasks()
+        //     .then(data => {
+        //         dispatch(_setLists(data));
+        //     });
+};
+
 export default function todoListReducers(oldState = defaultTodosState, action) {
     switch (action.type) {
         case nameAction.CREATE_NEW_TASK:
@@ -36,16 +53,16 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
                 };
             }
 
-            // case nameAction.CHENGE_FILTER:
-            //     return {
-            //         ...oldState,
-            //         filters: [
-            //             { value: "all", title: "All" },
-            //             { value: "completed", title: "Completed" },
-            //             { value: "uncompleted", title: "Uncompleted" },
-            //         ],
-            //         selectedFilter: "completed",
-            //     };
+        case nameAction.CHENGE_FILTER:
+            console.log(action.selectedFilter.selectedFilter)
+            debugger
+            return {
+                ...oldState,
+                selectedFilter: action.selectedFilter.selectedFilter
+                    // .filter((t) => t.id === action.isDone.taskID)
+                    // .map((t) => (t.isDone = action.isDone.isDone)),
+
+            };
         case nameAction.DELETE_TASK:
             {
                 return {
@@ -68,6 +85,11 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
                     ...oldState,
                     tasks: oldState.tasks.filter((t) => t.isDone !== true),
                 };
+            }
+        case nameAction.getTasks:
+            {
+                return oldState;
+
             }
 
         default:

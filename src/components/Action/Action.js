@@ -3,7 +3,9 @@ export const nameAction = {
     CHENGE_FILTER: 'CHANGE_FILTER',
     DELETE_TASK: 'DELETE_TASK',
     CLEAR_TASK: 'CLEAR_TASK',
-    UPDATE_TASK: 'UPDATE_TASK'
+    UPDATE_TASK: 'UPDATE_TASK',
+    GET_TASK: 'GET_TASK'
+
 }
 
 export const creatTaskActionCreater = (task) => {
@@ -13,10 +15,22 @@ export const creatTaskActionCreater = (task) => {
         newTask: task
     }
 }
+export const getTasks = (data) => {
+    return {
+        type: nameAction.GET_TASK,
+        task: data
+    }
+}
+export const changeFilterTask = (selectedFilter) => {
+    // console.log(selectedFilter);
+    // debugger
+    return {
+        type: nameAction.CHENGE_FILTER,
+        selectedFilter: selectedFilter
+    }
 
-// export const changeFilter = {
-//     type: nameAction.CHENGE_FILTER
-// }
+}
+
 export const deleteTask = (taskId) => {
 
 
