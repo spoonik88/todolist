@@ -19,20 +19,17 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log( this.props.getTasks())
+  this.props.getTasks()
    
     // this.props.getTasks();
 }
   ////TODO и создаёшь метод для выбора фильтра
   changeFilter = (selectedFilter) => {
-    // const selectedFilterTask = selectedFilter;
-//  console.log(selectedFilter);
+
  this.props.changeFilterTask({
   selectedFilter:selectedFilter
  })
-    // this.setState({
-    //   selectedFilter: selectedFilterTask,
-    // });
+  
   };
   onHideFiltersClick = (filters) => {
   
@@ -75,7 +72,7 @@ class App extends React.Component {
   render() {
     
     const { selectedFilter, tasks, filters } = this.props;
-    console.log(selectedFilter)
+   
     return (
       <div className="todoapp">
         <AppDate />

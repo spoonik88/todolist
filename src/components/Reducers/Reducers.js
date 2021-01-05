@@ -24,14 +24,24 @@ let idCounter = 1;
 //         dispatch({ type: "SOME-ACTION" });
 //     }
 // }
-
-export const getTasks = (data) => {
+// export const getTasks = (data) => (dispatch) => {
+//     debugger
+//     console.log(dispatch)
+//         // todoListsAPI.getTasks()
+//         //     .then(data => {
+//         //         dispatch(_setLists(data));
+//         //     });
+// };
+export const getTasks = (data) => (dispatch) => {
     console.log(data)
-        // todoListsAPI.getTasks()
+        // dispatch(_setLoading(true),
+        //     todoListsAPI.getTasks()
         //     .then(data => {
-        //         dispatch(_setLists(data));
-        //     });
-};
+        //         dispatch(_setLists(data))
+        //         dispatch(_setLoading(false))
+        //     })
+        // )
+}
 
 export default function todoListReducers(oldState = defaultTodosState, action) {
     switch (action.type) {
@@ -54,14 +64,10 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
             }
 
         case nameAction.CHENGE_FILTER:
-            console.log(action.selectedFilter.selectedFilter)
-            debugger
+
             return {
                 ...oldState,
                 selectedFilter: action.selectedFilter.selectedFilter
-                    // .filter((t) => t.id === action.isDone.taskID)
-                    // .map((t) => (t.isDone = action.isDone.isDone)),
-
             };
         case nameAction.DELETE_TASK:
             {
@@ -86,7 +92,7 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
                     tasks: oldState.tasks.filter((t) => t.isDone !== true),
                 };
             }
-        case nameAction.getTasks:
+        case nameAction.GET_TASK:
             {
                 return oldState;
 
