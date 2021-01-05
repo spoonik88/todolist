@@ -22,8 +22,7 @@ export const getTasks = (data) => {
     }
 }
 export const changeFilterTask = (selectedFilter) => {
-    // console.log(selectedFilter);
-    // debugger
+
     return {
         type: nameAction.CHENGE_FILTER,
         selectedFilter: selectedFilter

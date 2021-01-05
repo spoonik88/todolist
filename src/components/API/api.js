@@ -5,7 +5,8 @@ const instance = axios.create({
     withCredentials: true,
     headers: { "API-KEY": "0f32e29f-2408-4879-8199-f94cc9bd7861" },
 });
-export const todoListGet = {
+export const todoListsAPI = {
+
         getTask(response) {
             return instance.get(response)
                 .then(console.log('RESPONSE->', response))
