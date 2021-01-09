@@ -29,7 +29,7 @@ export const todoListsAPI = {
             value: 'aaa',
             status: task.priority,
         }
-        debugger
+
         return axios
             .post('https://calm-wave-15099.herokuapp.com/todos', newTask)
             .then((res) => {
@@ -39,6 +39,19 @@ export const todoListsAPI = {
                 }
             })
             .catch(e => console.log(e));
+    },
+    deleteTask(taskId) {
+
+        return axios
+            .post('https://calm-wave-15099.herokuapp.com/todos')
+            .then((res) => {
+
+                if (res.data && res.data.id) {
+                    return res.data
+                }
+            })
+            .catch(e => console.log(e));
+
     },
 
 };

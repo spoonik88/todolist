@@ -8,9 +8,9 @@ import AppBall from "./components/LogoSvg/LogoSvg.js";
 import AppDate from "./components/AddDate/AppDate";
 import {defaultTodosState} from "./components/Reducers/Reducers";
 import { connect } from "react-redux";
-import { createTaskThunk, deleteTask,clearTask,updateTask,changeFilterTask, getTasksThunk} from "./components/Action/Action";
+import { createTaskThunk, deleteTaskThunk,clearTask,updateTask,changeFilterTask, getTasksThunk} from "./components/Action/Action";
 
-// console.log(store);
+
 
 class App extends React.Component {
   constructor() {
@@ -21,9 +21,8 @@ class App extends React.Component {
   componentDidMount() {
   this.props.getTasks()
 
-    // this.props.getTasks();
 }
-  ////TODO и создаёшь метод для выбора фильтра
+
   changeFilter = (selectedFilter) => {
 
  this.props.changeFilterTask({
@@ -38,7 +37,7 @@ class App extends React.Component {
     });
   };
   updateTask = (task) => {
-    console.log(task.id)
+   
     this.props.updateTask({
       isDone: task.isDone,
       taskID:task.id
@@ -57,7 +56,7 @@ class App extends React.Component {
   }
   
   deleteTask(taskId) {
-    console.log(taskId)
+    
     this.props.deleteTask({
       taskId:taskId
     })
@@ -109,7 +108,7 @@ class App extends React.Component {
               })}
           </div>
         </div>
-        {/* ////TODO тут тебе нужно передавать только длинну тасок и фильтра. */}
+       
         <AppFooter
           tasksCount={tasks.length}
           key={tasks.id}
@@ -132,7 +131,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
       addNewTask: (newTask) => dispatch(createTaskThunk(newTask)),
-      deleteTask: (taskId) => dispatch(deleteTask(taskId)),
+      deleteTask: (taskId) => dispatch(deleteTaskThunk(taskId)),
       updateTask:(isDoneUpdate) => dispatch(updateTask(isDoneUpdate)),
       changeFilterTask:(selectedFilter) => dispatch(changeFilterTask(selectedFilter)),
       clearTask:(isDone) => dispatch(clearTask(isDone)),

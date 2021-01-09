@@ -18,39 +18,6 @@ export const defaultTodosState = {
     ],
     // selectedFilter: "all",
 };
-// let idCounter = 1;
-
-// let thunk = (dispatch, getState) => {
-//     let fullStateOfApp = getState(); // взять стейт, чтобы на основе его данных что-то проверить и если что, например, задиспатчить
-//     if (fullStateOfApp.users.length === 0) {
-//         dispatch({ type: "SOME-ACTION" });
-//     }
-// }
-// export const getTasks = (data) => (dispatch) => {
-
-
-//     todoListsAPI.getTasks()
-//         .then(data => {
-//             console.log(data)
-//         });
-// };
-// export const getTasks = (data) => (dispatch) => {
-//     todoListsAPI
-//         .getTask() 
-//         .then(data => {
-//             console.log(data)
-//         });
-// };
-// export const getTasks = (data) => (dispatch) => {
-
-//     dispatch(
-//         todoListsAPI.getTasks()
-//         .then(data => {
-//             dispatch(_setLists(data))
-//             dispatch(_setLoading(false))
-//         })
-//     )
-// }
 
 export default function todoListReducers(oldState = defaultTodosState, action) {
     switch (action.type) {
@@ -63,7 +30,6 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
                     value: action.newTask.value,
                     priority: action.newTask.priority,
                 };
-                // idCounter++;
                 let newTasks = [...oldState.tasks];
                 newTasks.push(newTask);
                 return {

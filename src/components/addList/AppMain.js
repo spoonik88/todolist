@@ -38,7 +38,7 @@ class Task extends React.Component {
           onChange={this.toggleTaskStatus.bind(this)}
           checked={this.state.task.isDone}
         />{" "}
-        {this.state.task.title} {" - "} {this.state.task.priority}
+        {this.state.task.title} {" - "} {this.state.task.status}
         <button className="delete" onClick={this.deleteTasks.bind(this)}>
           x{" "}
         </button>{" "}
