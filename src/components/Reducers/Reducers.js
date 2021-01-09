@@ -1,22 +1,24 @@
 import { nameAction } from "../Action/Action";
-import { todoListsAPI } from "../API/api";
+// import { todoListsAPI } from "../API/api";
 
 export const defaultTodosState = {
-    tasks: [{
-        id: 0,
-        title: "learn React",
-        isDone: false,
-        value: "",
-        priority: "low",
-    }, ],
-    filters: [
-        { value: "all", title: "All" },
-        { value: "completed", title: "Completed" },
-        { value: "uncompleted", title: "Uncompleted" },
+    tasks: [
+        //     {
+        //     id: 0,
+        //     title: "learn React",
+        //     isDone: false,
+        //     value: "",
+        //     priority: "low",
+        // }
     ],
-    selectedFilter: "all",
+    filters: [
+        // { value: "all", title: "All" },
+        // { value: "completed", title: "Completed" },
+        // { value: "uncompleted", title: "Uncompleted" },
+    ],
+    // selectedFilter: "all",
 };
-let idCounter = 1;
+// let idCounter = 1;
 
 // let thunk = (dispatch, getState) => {
 //     let fullStateOfApp = getState(); // взять стейт, чтобы на основе его данных что-то проверить и если что, например, задиспатчить
@@ -25,36 +27,43 @@ let idCounter = 1;
 //     }
 // }
 // export const getTasks = (data) => (dispatch) => {
-//     debugger
-//     console.log(dispatch)
-//         // todoListsAPI.getTasks()
-//         //     .then(data => {
-//         //         dispatch(_setLists(data));
-//         //     });
+
+
+//     todoListsAPI.getTasks()
+//         .then(data => {
+//             console.log(data)
+//         });
 // };
-export const getTasks = (data) => (dispatch) => {
-    console.log(data)
-        // dispatch(_setLoading(true),
-        //     todoListsAPI.getTasks()
-        //     .then(data => {
-        //         dispatch(_setLists(data))
-        //         dispatch(_setLoading(false))
-        //     })
-        // )
-}
+// export const getTasks = (data) => (dispatch) => {
+//     todoListsAPI
+//         .getTask() 
+//         .then(data => {
+//             console.log(data)
+//         });
+// };
+// export const getTasks = (data) => (dispatch) => {
+
+//     dispatch(
+//         todoListsAPI.getTasks()
+//         .then(data => {
+//             dispatch(_setLists(data))
+//             dispatch(_setLoading(false))
+//         })
+//     )
+// }
 
 export default function todoListReducers(oldState = defaultTodosState, action) {
     switch (action.type) {
         case nameAction.CREATE_NEW_TASK:
             {
                 const newTask = {
-                    id: idCounter,
+                    // id: idCounter,
                     title: action.newTask.title,
                     isDone: action.newTask.isDone,
                     value: action.newTask.value,
                     priority: action.newTask.priority,
                 };
-                idCounter++;
+                // idCounter++;
                 let newTasks = [...oldState.tasks];
                 newTasks.push(newTask);
                 return {
@@ -94,7 +103,7 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
             }
         case nameAction.GET_TASK:
             {
-                return oldState;
+                return {...oldState, tasks: action.tasks };
 
             }
 

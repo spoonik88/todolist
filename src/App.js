@@ -6,9 +6,9 @@ import HeaderBlock from "./components/Headerblock/HeaderBlock.js";
 import AppFooter from "./components/footerBlock/AppFooter";
 import AppBall from "./components/LogoSvg/LogoSvg.js";
 import AppDate from "./components/AddDate/AppDate";
-import {defaultTodosState,getTasks} from "./components/Reducers/Reducers";
+import {defaultTodosState} from "./components/Reducers/Reducers";
 import { connect } from "react-redux";
-import { creatTaskActionCreater, deleteTask,clearTask,updateTask,changeFilterTask} from "./components/Action/Action";
+import { createTaskThunk, deleteTask,clearTask,updateTask,changeFilterTask, getTasksThunk} from "./components/Action/Action";
 
 // console.log(store);
 
@@ -20,7 +20,7 @@ class App extends React.Component {
 
   componentDidMount() {
   this.props.getTasks()
-   
+
     // this.props.getTasks();
 }
   ////TODO и создаёшь метод для выбора фильтра
@@ -46,10 +46,11 @@ class App extends React.Component {
     
   };
 
-  createNewTask(title, priority,value) {
+  createNewTask(title,status,value) {
+    console.log(status)
     this.props.addNewTask({
       title: title,
-      priority: priority,
+      status: status,
       isDone:false,
       value:value    
     })
@@ -130,12 +131,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      addNewTask: (newTask) => dispatch(creatTaskActionCreater(newTask)),
+      addNewTask: (newTask) => dispatch(createTaskThunk(newTask)),
       deleteTask: (taskId) => dispatch(deleteTask(taskId)),
       updateTask:(isDoneUpdate) => dispatch(updateTask(isDoneUpdate)),
       changeFilterTask:(selectedFilter) => dispatch(changeFilterTask(selectedFilter)),
       clearTask:(isDone) => dispatch(clearTask(isDone)),
-      getTasks:(data) => dispatch(getTasks(data)),
+      getTasks:() => dispatch(getTasksThunk()),
       addA: () => dispatch({})
   }
 }

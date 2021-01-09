@@ -1,3 +1,6 @@
+import { todoListsAPI } from "../API/api"
+
+
 export const nameAction = {
     CREATE_NEW_TASK: 'CREATE_NEW_TASK',
     CHENGE_FILTER: 'CHANGE_FILTER',
@@ -15,10 +18,10 @@ export const creatTaskActionCreater = (task) => {
         newTask: task
     }
 }
-export const getTasks = (data) => {
+export const getTasksSuccess = (data) => {
     return {
         type: nameAction.GET_TASK,
-        task: data
+        tasks: data
     }
 }
 export const changeFilterTask = (selectedFilter) => {
@@ -57,15 +60,27 @@ export const updateTask = (isDone) => {
 
 }
 
-// export const putTasksActionCreater = (task) => {
-//     return {
-//         type: nameAction.PUT_TASKS,
-//         task: task
-//     }
-// }
-// export const createNewTask = (task) => {
-//     return {
-//         type: "ADD_TODOLIST",
-//         task: "ghbdfgdfg"
-//     }
-// }
+
+
+export const getTasksThunk = () => (dispatch) => {
+    todoListsAPI
+        .getTasks()
+        .then(data => {
+            if (data) {
+                dispatch(getTasksSuccess(data))
+            }
+        });
+};
+
+
+export const createTaskThunk = (task) => (dispatch) => {
+
+    todoListsAPI
+        .addNewTask(task)
+        .then(task => {
+            if (task) {
+                dispatch(creatTaskActionCreater(task))
+            }
+
+        });
+};
