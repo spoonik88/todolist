@@ -1,6 +1,4 @@
 import React from "react";
-// import ReactDOM from "react-dom";
-// import './index.css';
 import "./AppFooter.scss";
 
 class AppFooter extends React.Component {
@@ -23,14 +21,14 @@ class AppFooter extends React.Component {
     });
   }
   onHideFiltersClick(e) {
-    // console.log(this.props.filters);
+
     this.setState({
       isHidden: this.state.isHidden === false,
     });
   }
 
   render() {
-    // console.log(this.state.isHidden)
+    
     return (
       <footer className="footer">
         <span className="todo-count">

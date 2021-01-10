@@ -1,14 +1,8 @@
 import { nameAction } from "../Action/Action";
-import { todoListsAPI } from "../API/api";
+
 
 export const defaultTodosState = {
-    tasks: [{
-        id: 0,
-        title: "learn React",
-        isDone: false,
-        value: "",
-        priority: "low",
-    }, ],
+    tasks: [],
     filters: [
         { value: "all", title: "All" },
         { value: "completed", title: "Completed" },
@@ -16,45 +10,21 @@ export const defaultTodosState = {
     ],
     selectedFilter: "all",
 };
-let idCounter = 1;
 
-// let thunk = (dispatch, getState) => {
-//     let fullStateOfApp = getState(); // взять стейт, чтобы на основе его данных что-то проверить и если что, например, задиспатчить
-//     if (fullStateOfApp.users.length === 0) {
-//         dispatch({ type: "SOME-ACTION" });
-//     }
-// }
-// export const getTasks = (data) => (dispatch) => {
-//     debugger
-//     console.log(dispatch)
-//         // todoListsAPI.getTasks()
-//         //     .then(data => {
-//         //         dispatch(_setLists(data));
-//         //     });
-// };
-export const getTasks = (data) => (dispatch) => {
-    console.log(data)
-        // dispatch(_setLoading(true),
-        //     todoListsAPI.getTasks()
-        //     .then(data => {
-        //         dispatch(_setLists(data))
-        //         dispatch(_setLoading(false))
-        //     })
-        // )
-}
 
 export default function todoListReducers(oldState = defaultTodosState, action) {
     switch (action.type) {
         case nameAction.CREATE_NEW_TASK:
             {
+
                 const newTask = {
-                    id: idCounter,
+                    id: action.newTask.id,
                     title: action.newTask.title,
                     isDone: action.newTask.isDone,
                     value: action.newTask.value,
-                    priority: action.newTask.priority,
+                    status: action.newTask.status,
                 };
-                idCounter++;
+
                 let newTasks = [...oldState.tasks];
                 newTasks.push(newTask);
                 return {
@@ -71,6 +41,7 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
             };
         case nameAction.DELETE_TASK:
             {
+
                 return {
                     ...oldState,
                     tasks: oldState.tasks.filter((t) => t.id !== action.taskId.taskId),
@@ -78,15 +49,18 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
             }
         case nameAction.UPDATE_TASK:
             {
+                console.log(action.task)
+                debugger
                 return {
                     ...oldState,
                     task: oldState.tasks
-                        .filter((t) => t.id === action.isDone.taskID)
-                        .map((t) => (t.isDone = action.isDone.isDone)),
+                        .filter((t) => t.id === action.task.taskID)
+                        .map((t) => (t = action.task)),
                 };
             }
         case nameAction.CLEAR_TASK:
             {
+
                 return {
                     ...oldState,
                     tasks: oldState.tasks.filter((t) => t.isDone !== true),
@@ -94,7 +68,7 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
             }
         case nameAction.GET_TASK:
             {
-                return oldState;
+                return {...oldState, tasks: action.tasks };
 
             }
 

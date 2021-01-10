@@ -1,6 +1,6 @@
 case nameAction.UPDATE_TASK:
     {
-        debugger
+
 
         return {
             ...oldState,

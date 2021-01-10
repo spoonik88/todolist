@@ -6,11 +6,11 @@ import HeaderBlock from "./components/Headerblock/HeaderBlock.js";
 import AppFooter from "./components/footerBlock/AppFooter";
 import AppBall from "./components/LogoSvg/LogoSvg.js";
 import AppDate from "./components/AddDate/AppDate";
-import {defaultTodosState,getTasks} from "./components/Reducers/Reducers";
+import {defaultTodosState} from "./components/Reducers/Reducers";
 import { connect } from "react-redux";
-import { creatTaskActionCreater, deleteTask,clearTask,updateTask,changeFilterTask} from "./components/Action/Action";
+import { createTaskThunk,updateTaskThunk, deleteTaskThunk,clearTask,changeFilterTask, getTasksThunk} from "./components/Action/Action";
 
-// console.log(store);
+
 
 class App extends React.Component {
   constructor() {
@@ -20,10 +20,9 @@ class App extends React.Component {
 
   componentDidMount() {
   this.props.getTasks()
-   
-    // this.props.getTasks();
+
 }
-  ////TODO и создаёшь метод для выбора фильтра
+
   changeFilter = (selectedFilter) => {
 
  this.props.changeFilterTask({
@@ -38,28 +37,30 @@ class App extends React.Component {
     });
   };
   updateTask = (task) => {
-    console.log(task.id)
+    console.log(task)
+  
     this.props.updateTask({
-      isDone: task.isDone,
-      taskID:task.id
+      task:task     
     })
     
   };
 
-  createNewTask(title, priority,value) {
+  createNewTask(title, status,value,newTitle) {      
     this.props.addNewTask({
-      title: title,
-      priority: priority,
+      title: newTitle,
+      status: status,
       isDone:false,
       value:value    
     })
   }
   
-  deleteTask(taskId) {
-    console.log(taskId)
+  deleteTask(id) {
+    console.log(id)
+    
     this.props.deleteTask({
-      taskId:taskId
+      taskId:id
     })
+    return id
   }
   clearTaskComplited(e,isDone) {
     
@@ -108,7 +109,7 @@ class App extends React.Component {
               })}
           </div>
         </div>
-        {/* ////TODO тут тебе нужно передавать только длинну тасок и фильтра. */}
+     
         <AppFooter
           tasksCount={tasks.length}
           key={tasks.id}
@@ -129,14 +130,15 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => {
+  
   return {
-      addNewTask: (newTask) => dispatch(creatTaskActionCreater(newTask)),
-      deleteTask: (taskId) => dispatch(deleteTask(taskId)),
-      updateTask:(isDoneUpdate) => dispatch(updateTask(isDoneUpdate)),
+      addNewTask: (newTask) => dispatch(createTaskThunk(newTask)),
+      deleteTask: (id) => dispatch(deleteTaskThunk(id)),
+      updateTask:(task) => dispatch(updateTaskThunk(task)),
       changeFilterTask:(selectedFilter) => dispatch(changeFilterTask(selectedFilter)),
       clearTask:(isDone) => dispatch(clearTask(isDone)),
-      getTasks:(data) => dispatch(getTasks(data)),
-      addA: () => dispatch({})
+      getTasks:() => dispatch(getTasksThunk())
+      
   }
 }
 
