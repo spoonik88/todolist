@@ -8,7 +8,7 @@ import AppBall from "./components/LogoSvg/LogoSvg.js";
 import AppDate from "./components/AddDate/AppDate";
 import {defaultTodosState} from "./components/Reducers/Reducers";
 import { connect } from "react-redux";
-import { createTaskThunk, deleteTaskThunk,clearTask,updateTask,changeFilterTask, getTasksThunk} from "./components/Action/Action";
+import { createTaskThunk,updateTaskThunk, deleteTaskThunk,clearTask,changeFilterTask, getTasksThunk} from "./components/Action/Action";
 
 
 
@@ -37,29 +37,30 @@ class App extends React.Component {
     });
   };
   updateTask = (task) => {
-   
+    console.log(task)
+  
     this.props.updateTask({
-      isDone: task.isDone,
-      taskID:task.id
+      task:task     
     })
     
   };
 
-  createNewTask(title,status,value) {
-    console.log(status)
+  createNewTask(title, status,value,newTitle) {      
     this.props.addNewTask({
-      title: title,
+      title: newTitle,
       status: status,
       isDone:false,
       value:value    
     })
   }
   
-  deleteTask(taskId) {
+  deleteTask(id) {
+    console.log(id)
     
     this.props.deleteTask({
-      taskId:taskId
+      taskId:id
     })
+    return id
   }
   clearTaskComplited(e,isDone) {
     
@@ -108,7 +109,7 @@ class App extends React.Component {
               })}
           </div>
         </div>
-       
+     
         <AppFooter
           tasksCount={tasks.length}
           key={tasks.id}
@@ -129,14 +130,15 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => {
+  
   return {
       addNewTask: (newTask) => dispatch(createTaskThunk(newTask)),
-      deleteTask: (taskId) => dispatch(deleteTaskThunk(taskId)),
-      updateTask:(isDoneUpdate) => dispatch(updateTask(isDoneUpdate)),
+      deleteTask: (id) => dispatch(deleteTaskThunk(id)),
+      updateTask:(task) => dispatch(updateTaskThunk(task)),
       changeFilterTask:(selectedFilter) => dispatch(changeFilterTask(selectedFilter)),
       clearTask:(isDone) => dispatch(clearTask(isDone)),
-      getTasks:() => dispatch(getTasksThunk()),
-      addA: () => dispatch({})
+      getTasks:() => dispatch(getTasksThunk())
+      
   }
 }
 

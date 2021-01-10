@@ -33,7 +33,9 @@ export const changeFilterTask = (selectedFilter) => {
 
 }
 
-export const deleteTask = (taskId) => {
+export const deleteTaskSuccess = (taskId) => {
+
+
     return {
         type: nameAction.DELETE_TASK,
         taskId: taskId
@@ -49,14 +51,18 @@ export const clearTask = (isDone) => {
 
     }
 }
-export const updateTask = (isDone) => {
+export const updateTaskSuccess = (data) => {
+    console.log(data.config.data)
+    debugger
 
     return {
         type: "UPDATE_TASK",
-        isDone: isDone
+        task: data.config.data
     }
 
 }
+
+
 
 export const getTasksThunk = () => (dispatch) => {
     todoListsAPI
@@ -87,7 +93,19 @@ export const deleteTaskThunk = (taskId) => (dispatch) => {
         .deleteTask(taskId)
         .then(taskId => {
             if (taskId) {
-                dispatch(deleteTask(taskId))
+                dispatch(deleteTaskSuccess(taskId))
+            }
+
+        });
+};
+export const updateTaskThunk = (task) => (dispatch) => {
+    debugger
+
+    todoListsAPI
+        .updateTask(task)
+        .then(task => {
+            if (task) {
+                dispatch(updateTaskSuccess(task))
             }
 
         });

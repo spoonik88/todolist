@@ -1,35 +1,30 @@
 import { nameAction } from "../Action/Action";
-// import { todoListsAPI } from "../API/api";
+
 
 export const defaultTodosState = {
-    tasks: [
-        //     {
-        //     id: 0,
-        //     title: "learn React",
-        //     isDone: false,
-        //     value: "",
-        //     priority: "low",
-        // }
-    ],
+    tasks: [],
     filters: [
-        // { value: "all", title: "All" },
-        // { value: "completed", title: "Completed" },
-        // { value: "uncompleted", title: "Uncompleted" },
+        { value: "all", title: "All" },
+        { value: "completed", title: "Completed" },
+        { value: "uncompleted", title: "Uncompleted" },
     ],
-    // selectedFilter: "all",
+    selectedFilter: "all",
 };
+
 
 export default function todoListReducers(oldState = defaultTodosState, action) {
     switch (action.type) {
         case nameAction.CREATE_NEW_TASK:
             {
+
                 const newTask = {
-                    // id: idCounter,
+                    id: action.newTask.id,
                     title: action.newTask.title,
                     isDone: action.newTask.isDone,
                     value: action.newTask.value,
-                    priority: action.newTask.priority,
+                    status: action.newTask.status,
                 };
+
                 let newTasks = [...oldState.tasks];
                 newTasks.push(newTask);
                 return {
@@ -46,6 +41,7 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
             };
         case nameAction.DELETE_TASK:
             {
+
                 return {
                     ...oldState,
                     tasks: oldState.tasks.filter((t) => t.id !== action.taskId.taskId),
@@ -53,15 +49,18 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
             }
         case nameAction.UPDATE_TASK:
             {
+                console.log(action.task)
+                debugger
                 return {
                     ...oldState,
                     task: oldState.tasks
-                        .filter((t) => t.id === action.isDone.taskID)
-                        .map((t) => (t.isDone = action.isDone.isDone)),
+                        .filter((t) => t.id === action.task.taskID)
+                        .map((t) => (t = action.task)),
                 };
             }
         case nameAction.CLEAR_TASK:
             {
+
                 return {
                     ...oldState,
                     tasks: oldState.tasks.filter((t) => t.isDone !== true),

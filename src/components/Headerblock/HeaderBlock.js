@@ -10,7 +10,7 @@ class Headerblock extends React.Component {
     this.state = {
       task: props.tasks,
       value: "",
-      priority: "no priority selected",
+      status: "no priority selected",
       error: false,
     };
   }
@@ -19,13 +19,13 @@ class Headerblock extends React.Component {
     this.setState({ value: e.target.value, error: false });
   }
   handleChangePriority(e) {
-    this.setState({ priority: e.target.value });
+    this.setState({ status: e.target.value });
   }
 
   handleKeyDown(e) {
     if (!e.key || e.key === "Enter") {
       if (this.state.value) {
-        this.props.createNewTask(this.state.value, this.state.priority);
+        this.props.createNewTask(this.state.value, this.state.status);
         this.setState({ value: "", error: false });
       } else {
         this.setState({ error: true });
@@ -50,7 +50,7 @@ class Headerblock extends React.Component {
           <select
             name=""
             id=""
-            priority={this.state.priority}
+            status={this.props.status}
             onChange={this.handleChangePriority.bind(this)}
           >
             <option value="Low"> Low </option>{" "}
