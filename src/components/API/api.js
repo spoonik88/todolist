@@ -43,22 +43,23 @@ export const todoListsAPI = {
             .catch((e) => console.log(e));
     },
     async deleteTask(taskId) {
-
         try {
-            axios
-                .delete("https://calm-wave-15099.herokuapp.com/todos" + '/' + taskId.taskId);
-            return taskId;
+            const res = await axios
+                .delete("https://calm-wave-15099.herokuapp.com/todos" + '/' + taskId);
+            if (res.status === 204) {
+                return true
+            }
         } catch (e) {
-            return console.log(e);
+            console.log(e);
         }
     },
-    updateTask(task) {;
-        debugger
-
+    updateTask(task) {
         return axios
             .put("https://calm-wave-15099.herokuapp.com/todos", task.task)
-            .then((task) => {
-                return task;
+            .then((res) => {
+                if (res.status === 200) {
+                    return true
+                }
             })
             .catch((e) => console.log(e));
     },

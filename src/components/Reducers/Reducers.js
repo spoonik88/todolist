@@ -44,18 +44,15 @@ export default function todoListReducers(oldState = defaultTodosState, action) {
 
                 return {
                     ...oldState,
-                    tasks: oldState.tasks.filter((t) => t.id !== action.taskId.taskId),
+                    tasks: oldState.tasks.filter((t) => t.id !== action.taskId),
                 };
             }
         case nameAction.UPDATE_TASK:
             {
-                console.log(action.task)
-                debugger
                 return {
                     ...oldState,
-                    task: oldState.tasks
-                        .filter((t) => t.id === action.task.taskID)
-                        .map((t) => (t = action.task)),
+                    tasks: oldState.tasks
+                        .map((t) => t.id === action.task.id ? action.task : t),
                 };
             }
         case nameAction.CLEAR_TASK:

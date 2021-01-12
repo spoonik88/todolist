@@ -90,7 +90,7 @@ class Task extends React.Component {
           />;
     } else {
       editElement = (
-        <div className="inputTitleTask" onDoubleClick ={this.editElementName.bind(this)}  >{this.state.task.title}</div>
+        <div className="inputTitleTask" onDoubleClick ={this.editElementName.bind(this)}  >{this.props.task.title}</div>
       );
     }
 
@@ -110,7 +110,7 @@ class Task extends React.Component {
       );
     } else {
       editElementSelect = (
-        <div className="inputStatusTask"  onDoubleClick ={this.editElementSelectPryority.bind(this)}> {this.state.task.status}</div>
+        <div className="inputStatusTask"  onDoubleClick ={this.editElementSelectPryority.bind(this)}> {this.props.task.status}</div>
       );
     }
 

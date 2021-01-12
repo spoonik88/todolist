@@ -39,15 +39,13 @@ class App extends React.Component {
   updateTask = (task) => {
     console.log(task)
   
-    this.props.updateTask({
-      task:task     
-    })
+    this.props.updateTask(    task )
     
   };
 
   createNewTask(title, status,value,newTitle) {      
     this.props.addNewTask({
-      title: newTitle,
+      title: title,
       status: status,
       isDone:false,
       value:value    
@@ -56,11 +54,7 @@ class App extends React.Component {
   
   deleteTask(id) {
     console.log(id)
-    
-    this.props.deleteTask({
-      taskId:id
-    })
-    return id
+    this.props.deleteTask(id)
   }
   clearTaskComplited(e,isDone) {
     

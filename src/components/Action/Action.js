@@ -51,13 +51,10 @@ export const clearTask = (isDone) => {
 
     }
 }
-export const updateTaskSuccess = (data) => {
-    console.log(data.config.data)
-    debugger
-
+export const updateTaskSuccess = (task) => {
     return {
         type: "UPDATE_TASK",
-        task: data.config.data
+        task: task
     }
 
 }
@@ -91,22 +88,19 @@ export const deleteTaskThunk = (taskId) => (dispatch) => {
 
     todoListsAPI
         .deleteTask(taskId)
-        .then(taskId => {
-            if (taskId) {
+        .then(res => {
+            if (res) {
                 dispatch(deleteTaskSuccess(taskId))
             }
 
         });
 };
 export const updateTaskThunk = (task) => (dispatch) => {
-    debugger
-
     todoListsAPI
         .updateTask(task)
-        .then(task => {
-            if (task) {
+        .then(res => {
+            if (res) {
                 dispatch(updateTaskSuccess(task))
             }
-
         });
 };
